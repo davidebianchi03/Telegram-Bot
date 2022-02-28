@@ -27,7 +27,7 @@ public class ChatPhoto {
     }
     
     //method for loading chat photo from JSONObject
-    public ChatPhoto LoadFromJson(JSONObject jsonObj){
+    public static ChatPhoto LoadFromJson(JSONObject jsonObj){
         ChatPhoto photo = new ChatPhoto();
         
         if(jsonObj.has("small_file_id")){
