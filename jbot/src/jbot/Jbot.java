@@ -20,16 +20,19 @@ public class Jbot {
         List<Message> updatesList = null;
         while (true) {
             updatesList = telegram.GetUpdates();
-            for (int i = 0; i < updatesList.size(); i++) {
-                Message currentMessage = updatesList.get(i);
-                String text = currentMessage.getText();
-                User sender = currentMessage.getFrom();
-                System.out.println("Sender: " + sender.getFirst_name() + " " + sender.getLast_name() + " - Message: " + text);
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Jbot.class.getName()).log(Level.SEVERE, null, ex);
+            if (updatesList != null) {
+                for (int i = 0; i < updatesList.size(); i++) {
+                    Message currentMessage = updatesList.get(i);
+                    String text = currentMessage.getText();
+                    User sender = currentMessage.getFrom();
+                    System.out.println("Sender: " + sender.getFirst_name() + " " + sender.getLast_name() + " - Message: " + text);
+                    telegram.SendMessage(currentMessage.getChat().getId(), "Ciao");
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Jbot.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
 
