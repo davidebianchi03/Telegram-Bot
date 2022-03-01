@@ -24,3 +24,5 @@ hs_err_pid*
 /Telegram.API/build/
 /Telegram.API/dist/
 /jbot/build/
+/GeoLib/nbproject/private/
+/GeoLib/build/

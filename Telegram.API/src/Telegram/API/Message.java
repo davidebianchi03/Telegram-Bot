@@ -1,5 +1,8 @@
 package Telegram.API;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -7,7 +10,7 @@ import org.json.JSONObject;
  * @author Davide
  */
 public class Message {
-    
+
     private int message_id;
     private User from;
     private Chat sender_chat;
@@ -26,8 +29,9 @@ public class Message {
     private String media_group_id;
     private String author_signature;
     private String text;
-    
-    public Message(){
+    private List<Entity> entities;
+
+    public Message() {
         message_id = 0;
         from = null;
         sender_chat = null;
@@ -46,9 +50,10 @@ public class Message {
         media_group_id = "";
         author_signature = "";
         text = "";
+        entities = null;
     }
 
-    public Message(int message_id, User from, Chat sender_chat, int date, Chat chat, Chat forward_from_chat, int forward_from_message_id, String forward_signature, String forward_sender_name, int forward_date, boolean is_automatic_forward, Message reply_to_message, User via_bot, int edit_date, boolean has_protected_content, String media_group_id, String author_signature, String text) {
+    public Message(int message_id, User from, Chat sender_chat, int date, Chat chat, Chat forward_from_chat, int forward_from_message_id, String forward_signature, String forward_sender_name, int forward_date, boolean is_automatic_forward, Message reply_to_message, User via_bot, int edit_date, boolean has_protected_content, String media_group_id, String author_signature, String text, List<Entity> entities) {
         this.message_id = message_id;
         this.from = from;
         this.sender_chat = sender_chat;
@@ -67,75 +72,85 @@ public class Message {
         this.media_group_id = media_group_id;
         this.author_signature = author_signature;
         this.text = text;
+        this.entities = entities;
     }
 
-    public static Message LoadFromJson(JSONObject jsonObj){
+    public static Message LoadFromJson(JSONObject jsonObj) {
         Message message = new Message();
-        
-        if(jsonObj.has("message_id")){
+
+        if (jsonObj.has("message_id")) {
             message.message_id = jsonObj.getInt("message_id");
         }
-        if(jsonObj.has("from")){
+        if (jsonObj.has("from")) {
             message.from = User.LoadFromJson(jsonObj.getJSONObject("from"));
         }
-        if(jsonObj.has("sender_chat")){
+        if (jsonObj.has("sender_chat")) {
             message.sender_chat = Chat.LoadFromJson(jsonObj.getJSONObject("sender_chat"));
         }
-        if(jsonObj.has("date")){
+        if (jsonObj.has("date")) {
             message.date = jsonObj.getInt("date");
         }
-        if(jsonObj.has("chat")){
+        if (jsonObj.has("chat")) {
             message.chat = Chat.LoadFromJson(jsonObj.getJSONObject("chat"));
         }
-        if(jsonObj.has("forward_from_chat")){
+        if (jsonObj.has("forward_from_chat")) {
             message.forward_from_chat = Chat.LoadFromJson(jsonObj.getJSONObject("forward_from_chat"));
         }
-        if(jsonObj.has("forward_from_message_id")){
+        if (jsonObj.has("forward_from_message_id")) {
             message.forward_from_message_id = jsonObj.getInt("forward_from_message_id");
         }
-        if(jsonObj.has("forward_signature")){
+        if (jsonObj.has("forward_signature")) {
             message.forward_signature = jsonObj.getString("forward_signature");
         }
-        if(jsonObj.has("forward_sender_name")){
+        if (jsonObj.has("forward_sender_name")) {
             message.forward_sender_name = jsonObj.getString("forward_sender_name");
         }
-        if(jsonObj.has("forward_date")){
+        if (jsonObj.has("forward_date")) {
             message.forward_date = jsonObj.getInt("forward_date");
         }
-        if(jsonObj.has("is_automatic_forward")){
+        if (jsonObj.has("is_automatic_forward")) {
             message.is_automatic_forward = true;
-        }
-        else{
+        } else {
             message.is_automatic_forward = false;
         }
-        if(jsonObj.has("reply_to_message")){
+        if (jsonObj.has("reply_to_message")) {
             message.reply_to_message = Message.LoadFromJson(jsonObj.getJSONObject("reply_to_message"));
         }
-        if(jsonObj.has("via_bot")){
+        if (jsonObj.has("via_bot")) {
             message.via_bot = User.LoadFromJson(jsonObj.getJSONObject("via_bot"));
         }
-        if(jsonObj.has("edit_date")){
+        if (jsonObj.has("edit_date")) {
             message.edit_date = jsonObj.getInt("edit_date");
         }
-        if(jsonObj.has("has_protected_content")){
+        if (jsonObj.has("has_protected_content")) {
             message.has_protected_content = true;
-        }
-        else{
+        } else {
             message.has_protected_content = false;
         }
-        if(jsonObj.has("media_group_id")){
+        if (jsonObj.has("media_group_id")) {
             message.media_group_id = jsonObj.getString("media_group_id");
         }
-        if(jsonObj.has("author_signature")){
+        if (jsonObj.has("author_signature")) {
             message.author_signature = jsonObj.getString("author_signature");
         }
-        if(jsonObj.has("text")){
+        if (jsonObj.has("text")) {
             message.text = jsonObj.getString("text");
         }
-        
+
+        //carico le entities
+        if (jsonObj.has("entities")) {
+            JSONArray entitiesArray = new JSONArray(jsonObj.getJSONArray("entities"));
+            message.entities = new ArrayList<Entity>();
+
+            for (int i = 0; i < entitiesArray.length(); i++) {
+                message.entities.add(Entity.LoadFromJson(entitiesArray.getJSONObject(i)));
+            }
+
+        }
+
         return message;
     }
-    
+
     //get & set methods
     public int getMessage_id() {
         return message_id;
@@ -280,7 +295,15 @@ public class Message {
     public void setText(String text) {
         this.text = text;
     }
+
+    public List<Entity> getEntities() {
+        return entities;
+    }
+
+    public void setEntities(List<Entity> entities) {
+        this.entities = entities;
+    }
     
     
-    
+
 }

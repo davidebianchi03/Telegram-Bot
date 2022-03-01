@@ -3,6 +3,8 @@ package Telegram.API;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -47,7 +49,7 @@ public class Telegram {
 
         //load the list of available messages
         String urlPath = basePath + "/getUpdates?offset=" + Integer.toString(lastUpdateId + 1);
-
+        
         try {
             URL url = new URL(urlPath);
             Scanner urlScanner = new Scanner(url.openStream());
@@ -89,7 +91,7 @@ public class Telegram {
 
     //method used for sending messages
     public void SendMessage(int chat_id, String text) {
-        String urlString = basePath + "/sendMessage?chat_id=" + Integer.toString(chat_id) + "&text=" + text;
+        String urlString = basePath + "/sendMessage?chat_id=" + Integer.toString(chat_id) + "&text=" + URLEncoder.encode(text, StandardCharsets.UTF_8);
         System.out.println(urlString);
         URL url;
         try {
