@@ -91,8 +91,8 @@ public class Telegram {
 
     //method used for sending messages
     public void SendMessage(int chat_id, String text) {
-        String urlString = basePath + "/sendMessage?chat_id=" + Integer.toString(chat_id) + "&text=" + URLEncoder.encode(text, StandardCharsets.UTF_8);
-        System.out.println(urlString);
+        String urlString = basePath + "/sendMessage?chat_id=" + Integer.toString(chat_id) + "&text=" + URLEncoder.encode(text, StandardCharsets.UTF_8) + "&parse_mode=html";
+//        System.out.println(urlString);
         URL url;
         try {
             url = new URL(urlString);

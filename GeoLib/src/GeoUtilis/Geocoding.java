@@ -21,6 +21,7 @@ public class Geocoding {
     public static List<Place> SearchPlace(String placeName) throws MalformedURLException, ParserConfigurationException, SAXException, IOException {
         try {
             URL url = new URL("https://nominatim.openstreetmap.org/search?q=" + URLEncoder.encode(placeName, StandardCharsets.UTF_8) + "&format=xml&polygon_geojson=1&addressdetails=1");
+
             Scanner s = new Scanner(url.openStream());
             s.useDelimiter("/u00a");
             String xmlString = s.next();
