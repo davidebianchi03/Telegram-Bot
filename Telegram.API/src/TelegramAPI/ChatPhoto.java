@@ -1,4 +1,4 @@
-package Telegram.API;
+package TelegramAPI;
 import org.json.*;
 /**
  *

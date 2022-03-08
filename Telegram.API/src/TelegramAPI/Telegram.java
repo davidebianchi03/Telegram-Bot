@@ -1,4 +1,4 @@
-package Telegram.API;
+package TelegramAPI;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

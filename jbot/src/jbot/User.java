@@ -33,27 +33,27 @@ public class User {
         try {
             double latitude = 0;
             double longitude = 0;
-
+            
             //formato del csv chat_id;latitudine;longitudine;name;
             int pos = csvString.indexOf(";");
             if (pos > -1) {
                 u.chat_id = Integer.parseInt(csvString.substring(0, pos));
             }
-            csvString = csvString.substring(pos + 1, csvString.length() - pos);
+            csvString = csvString.substring(pos + 1, csvString.length());
 
             pos = csvString.indexOf(";");
             if (pos > -1) {
                 latitude = Double.parseDouble(csvString.substring(0, pos));
             }
 
-            csvString = csvString.substring(pos + 1, csvString.length() - pos);
+            csvString = csvString.substring(pos + 1, csvString.length());
 
             pos = csvString.indexOf(";");
             if (pos > -1) {
                 longitude = Double.parseDouble(csvString.substring(0, pos));
             }
             u.coordinate = new Coordinate(latitude, longitude);
-            csvString = csvString.substring(pos + 1, csvString.length() - pos);
+            csvString = csvString.substring(pos + 1, csvString.length());
 
             pos = csvString.indexOf(";");
             if (pos > -1) {
@@ -66,6 +66,11 @@ public class User {
             return new User();
         }
         
+    }
+    
+    public String toCSV(){
+        //formato del csv chat_id;latitudine;longitudine;name;
+        return Integer.toString(chat_id)+";"+Double.toString(coordinate.getLatitude())+";"+Double.toString(coordinate.getLongitude())+";"+name+";";
     }
 
     public int getChat_id() {

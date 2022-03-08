@@ -1,4 +1,4 @@
-package Telegram.API;
+package TelegramAPI;
 
 import java.util.ArrayList;
 import java.util.List;
