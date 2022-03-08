@@ -53,6 +53,14 @@ public class UserList {
         }
         return instance;
     }
+    
+    public User GetUserAt(int index){
+        return userList.get(index);
+    }
+    
+    public int GetSize(){
+        return userList.size();
+    }
 
     public synchronized void AddUser(User user) {
         userList.add(user);

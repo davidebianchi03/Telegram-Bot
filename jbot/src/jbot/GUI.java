@@ -1,5 +1,6 @@
 package jbot;
 
+import GeoUtilis.Coordinate;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -75,8 +76,10 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //controllo se sono stati aggiunti tutti i campi e in caso affermativo salvo la pubblicità nel file
                 if(txt_pubblicita.getText() != "" && IsDouble(txt_latitude.getText()) && IsDouble(txt_longitude.getText())){
-                    ADV adv = new ADV(txt_pubblicita.getText(), Double.parseDouble(txt_latitude.getText()), Double.parseDouble(txt_longitude.getText()));
-                    advList.AddAdv(adv);
+                    double lat = Double.parseDouble(txt_latitude.getText());
+                    double lon = Double.parseDouble(txt_longitude.getText());
+                    SendADV sa = new SendADV(new Coordinate(lat, lon), txt_pubblicita.getText());
+                    sa.start();
                 }
             }
         });
