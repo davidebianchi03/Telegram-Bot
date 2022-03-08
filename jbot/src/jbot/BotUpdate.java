@@ -5,6 +5,8 @@
  */
 package jbot;
 
+import GeoUtilis.Coordinate;
+import GeoUtilis.Distance;
 import GeoUtilis.Geocoding;
 import GeoUtilis.Place;
 import Telegram.API.Message;
@@ -54,22 +56,14 @@ public class BotUpdate extends Thread {
                                 List<Place> placeList = Geocoding.SearchPlace(msgArgs);
 
                                 String listString = "";
-
-//                                for (int j = 0; j < placeList.size(); j++) {
-//                                    Place p = placeList.get(j);
-//                                    String returnString = p.toString();
-//                                    
-//                                    if(returnString != "")
-//                                    telegram.SendMessage(currentMessage.getChat().getId(), returnString);
-//                                }
                                 
                                 if(placeList.size() <= 0){
                                     telegram.SendMessage(currentMessage.getChat().getId(), "<i>No place found with the name: <b>" + msgArgs +"</b></i>");
                                 }
                                 else{
                                     //rispondo con la lista delle pubblicità in zona
-                                    telegram.SendMessage(currentMessage.getChat().getId(), "Ciao");
-                                    
+                                    telegram.SendMessage(currentMessage.getChat().getId(), "Ok, ti sei iscritto a questa lista"); 
+                                    //salvo l'utente sul file
                                 }
 
                                 

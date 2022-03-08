@@ -27,7 +27,8 @@ public class Place {
     private String village;
     private String hamlet;
     private String geojson;
-
+    private Coordinate coordinate;
+    
     public Place() {
         road = "";
         town = "";
@@ -42,6 +43,7 @@ public class Place {
         village = "";
         hamlet = "";
         geojson = "";
+        coordinate = new Coordinate();
     }
 
     //metodo toString
@@ -76,6 +78,14 @@ public class Place {
             content += ", Emergency";
         }
         return content;
+    }
+
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
     }
 
     public String getRoad() {

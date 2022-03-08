@@ -132,6 +132,30 @@ public class XmlParser {
             place.setHamlet(hamlet.getFirstChild().getNodeValue());
         }
 
+        //ottengo le coordinate
+        String lat = element.getAttribute("lat");
+        String lon = element.getAttribute("lon");
+        Coordinate c = new Coordinate();
+        if(lat != ""){
+            try{
+               c.setLatitude(Double.parseDouble(lat));
+            }
+            catch(Exception e){
+                
+            }
+        }
+        
+        if(lon != ""){
+            try{
+               c.setLongitude(Double.parseDouble(lon));
+            }
+            catch(Exception e){
+                
+            }
+        }
+        
+        place.setCoordinate(c);
+        
         return place;
     }
 
