@@ -61,16 +61,21 @@ public class BotUpdate extends Thread {
                                 if (placeList.size() <= 0) {
                                     telegram.SendMessage(currentMessage.getChat().getId(), "<i>No place found with the name: <b>" + msgArgs + "</b></i>");
                                 } else {
-                                    //salvo l'utente sul file
+                                    //controllo se l'utente esiste già e lo inserisco/aggiorno le informazioni
                                     jbot.User user = new jbot.User();
-                                    
+
                                     user.setName(sender.getFirst_name());
                                     user.setCoordinate(placeList.get(0).getCoordinate());
                                     user.setChat_id(currentMessage.getChat().getId());
-                                    
-                                    userList.AddUser(user);
-                                    //rispondo all'utente per conferma
-                                    telegram.SendMessage(currentMessage.getChat().getId(), "Ok, ti sei iscritto a questa lista");
+
+                                    if (userList.AddUser(user)) {
+                                        //rispondo all'utente per conferma
+                                        telegram.SendMessage(currentMessage.getChat().getId(), "Ok, hai aggiornato la tua posizione");
+                                    } else {
+                                        //rispondo all'utente per conferma
+                                        telegram.SendMessage(currentMessage.getChat().getId(), "Ok, ti sei iscritto a questa lista");
+                                    }
+
                                 }
 
                             } catch (ParserConfigurationException ex) {

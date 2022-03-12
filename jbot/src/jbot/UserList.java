@@ -53,29 +53,58 @@ public class UserList {
         }
         return instance;
     }
-    
-    public User GetUserAt(int index){
+
+    public User GetUserAt(int index) {
         return userList.get(index);
     }
-    
-    public int GetSize(){
+
+    public int GetSize() {
         return userList.size();
     }
 
-    public synchronized void AddUser(User user) {
-        userList.add(user);
-        //scrivo il file
-        String stringToWrite = user.toCSV();
+    public synchronized boolean AddUser(User user) {
+        boolean already_exists = false;
+        int pos = -1;
+        //trovo la posizione dell'utente se esiste
+        for (int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).getChat_id() == user.getChat_id()) {
+                pos = i;
+                break;
+            }
+        }
+        //controllo se l'utente esiste di già
+        if (pos != -1) {
+            already_exists = true;
+            //aggiorno l'elemento salvato nella lista
+            userList.get(pos).setCoordinate(user.getCoordinate());
+            //riscrivo tutto il file per aggiornarlo
+            String csvString = "";
+            for (int i = 0; i < userList.size(); i++) {
+                csvString += userList.get(i).toCSV() + "\n";
+            }
+            WriteString2File(csvString, fileName, false);
+
+        } else {
+            userList.add(user);
+            //scrivo il file
+            String stringToWrite = user.toCSV();
+            WriteString2File(stringToWrite, fileName, true);
+        }
+
+        return already_exists;
+    }
+
+    private void WriteString2File(String stringToWrite, String filename, boolean append) {
         FileWriter fw = null;
         BufferedWriter bw = null;
         PrintWriter out = null;
         try {
             //se non esiste il file lo creo
-            File file = new File(fileName);
+            File file = new File(filename);
             if (!file.exists()) {
                 file.createNewFile();
             }
-            fw = new FileWriter(fileName, true);//apro il file in modalità append
+            fw = new FileWriter(filename, append);//apro il file in modalità append
             bw = new BufferedWriter(fw);
             out = new PrintWriter(bw);
             out.println(stringToWrite);
@@ -101,5 +130,4 @@ public class UserList {
             }
         }
     }
-
 }
