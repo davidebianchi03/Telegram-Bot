@@ -29,7 +29,8 @@ public class SendADV extends Thread{
         for(int i=0;i<userList.GetSize();i++){
             User u = userList.GetUserAt(i);
             if(Distance.CalculateDistanceInMeters(u.getCoordinate(), coordinate)<5000){
-                t.SendMessage(u.getChat_id(), "<b>Ciao " + u.getName() + " è presente la seguente offerta vicino a te:</b> " + message); 
+                t.SendMessage(u.getChat_id(), "<b>Ciao " + u.getName() + ", è presente la seguente offerta vicino a te:</b>\n" + message);
+                t.SendLocation(u.getChat_id(), coordinate.getLatitude(), coordinate.getLongitude());
            }
         }
         

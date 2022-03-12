@@ -89,10 +89,9 @@ public class Telegram {
 
     }
 
-    //method used for sending messages
+    //metodo utilizzato per inviare i messaggi
     public void SendMessage(int chat_id, String text) {
         String urlString = basePath + "/sendMessage?chat_id=" + Integer.toString(chat_id) + "&text=" + URLEncoder.encode(text, StandardCharsets.UTF_8) + "&parse_mode=html";
-//        System.out.println(urlString);
         URL url;
         try {
             url = new URL(urlString);
@@ -104,5 +103,21 @@ public class Telegram {
             Logger.getLogger(Telegram.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    //metodo utilizzato per inviare una posizione sulla mappa
+    public void SendLocation(long chat_id, double latitude, double longitude){
+        //https://api.telegram.org/bot[botToken]/sendlocation?chat_id=[UserID]&latitude=51.6680&longitude=32.6546
+        String urlString = basePath + "/sendlocation?chat_id=" + Long.toString(chat_id) + "&latitude=" + Double.toString(latitude) + "&longitude=" + Double.toString(longitude);
+        URL url;
+        try {
+            url = new URL(urlString);
+            Scanner scanner = new Scanner(url.openStream());
+            scanner.useDelimiter("/u000a");
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Telegram.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Telegram.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
