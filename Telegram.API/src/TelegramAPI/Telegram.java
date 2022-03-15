@@ -49,7 +49,6 @@ public class Telegram {
 
         //load the list of available messages
         String urlPath = basePath + "/getUpdates?offset=" + Integer.toString(lastUpdateId + 1);
-        
         try {
             URL url = new URL(urlPath);
             Scanner urlScanner = new Scanner(url.openStream());

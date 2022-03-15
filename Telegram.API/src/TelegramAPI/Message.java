@@ -1,5 +1,6 @@
 package TelegramAPI;
 
+import GeoUtilis.Coordinate;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
@@ -30,6 +31,7 @@ public class Message {
     private String author_signature;
     private String text;
     private List<Entity> entities;
+    private Coordinate location;
 
     public Message() {
         message_id = 0;
@@ -51,6 +53,7 @@ public class Message {
         author_signature = "";
         text = "";
         entities = null;
+        location = null;
     }
 
     public Message(int message_id, User from, Chat sender_chat, int date, Chat chat, Chat forward_from_chat, int forward_from_message_id, String forward_signature, String forward_sender_name, int forward_date, boolean is_automatic_forward, Message reply_to_message, User via_bot, int edit_date, boolean has_protected_content, String media_group_id, String author_signature, String text, List<Entity> entities) {
@@ -135,6 +138,12 @@ public class Message {
         }
         if (jsonObj.has("text")) {
             message.text = jsonObj.getString("text");
+        }
+        if (jsonObj.has("location")) {
+            JSONObject coordObj = jsonObj.getJSONObject("location");
+            double lat = coordObj.getDouble("latitude");
+            double lon = coordObj.getDouble("longitude");
+            message.location = new Coordinate(lat, lon);
         }
 
         //carico le entities
@@ -302,6 +311,14 @@ public class Message {
 
     public void setEntities(List<Entity> entities) {
         this.entities = entities;
+    }
+
+    public Coordinate getLocation() {
+        return location;
+    }
+
+    public void setLocation(Coordinate location) {
+        this.location = location;
     }
     
     

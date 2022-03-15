@@ -70,11 +70,13 @@ public class BotUpdate extends Thread {
 
                                     if (userList.AddUser(user)) {
                                         //rispondo all'utente per conferma
-                                        telegram.SendMessage(currentMessage.getChat().getId(), "Ok, hai aggiornato la tua posizione");
+                                        telegram.SendMessage(currentMessage.getChat().getId(), "Ok, hai aggiornato la tua posizione\n<b>Ecco la tua posizione, controlla se è giusta</b>");
                                     } else {
                                         //rispondo all'utente per conferma
-                                        telegram.SendMessage(currentMessage.getChat().getId(), "Ok, ti sei iscritto a questa lista");
+                                        telegram.SendMessage(currentMessage.getChat().getId(), "Ok, ti sei iscritto a questa lista\n<b>Ecco la tua nuova posizione, controlla se è giusta</b>");
                                     }
+
+                                    telegram.SendLocation(currentMessage.getChat().getId(), placeList.get(0).getCoordinate().getLatitude(), placeList.get(0).getCoordinate().getLongitude());
 
                                 }
 
@@ -85,10 +87,23 @@ public class BotUpdate extends Thread {
                             } catch (IOException ex) {
                                 Logger.getLogger(Jbot.class.getName()).log(Level.SEVERE, null, ex);
                             }
+                        } else {
+                            telegram.SendMessage(currentMessage.getChat().getId(), "<b>Non esiste nessun comando con il nome: <code>" + command + "</code></b>\n"
+                                    + "I comandi disponibili sono:\n- /citta: Viene utilizzato per impostare o aggiornare la propria posizione");
                         }
-                        else{
-                            telegram.SendMessage(currentMessage.getChat().getId(), "<b>Non esiste nessun comando con il nome: <code>" + command + "</code></b>\n"+
-                                    "I comandi disponibili sono:\n- /citta: Viene utilizzato per impostare o aggiornare la propria posizione");
+                    } else if (currentMessage.getLocation() != null) {
+                        jbot.User user = new jbot.User();
+
+                        user.setName(sender.getFirst_name());
+                        user.setCoordinate(currentMessage.getLocation());
+                        user.setChat_id(currentMessage.getChat().getId());
+
+                        if (userList.AddUser(user)) {
+                            //rispondo all'utente per conferma
+                            telegram.SendMessage(currentMessage.getChat().getId(), "Ok, hai aggiornato la tua posizione");
+                        } else {
+                            //rispondo all'utente per conferma
+                            telegram.SendMessage(currentMessage.getChat().getId(), "Ok, ti sei iscritto a questa lista");
                         }
                     }
 
