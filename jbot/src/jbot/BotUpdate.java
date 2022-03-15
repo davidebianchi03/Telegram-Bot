@@ -86,6 +86,10 @@ public class BotUpdate extends Thread {
                                 Logger.getLogger(Jbot.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
+                        else{
+                            telegram.SendMessage(currentMessage.getChat().getId(), "<b>Non esiste nessun comando con il nome: <code>" + command + "</code></b>\n"+
+                                    "I comandi disponibili sono:\n- /citta: Viene utilizzato per impostare o aggiornare la propria posizione");
+                        }
                     }
 
                 }
